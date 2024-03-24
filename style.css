@@ -59,6 +59,15 @@ div {
 .resource-list{
   text-decoration: none;
 }
+.todo-grid{
+  gap: 1px;
+}
+.item-class{
+  display: flex;
+  margin-top: 5px;
+  padding: 5px 5px;
+  font-size: 16px;
+}
 @media only screen and (max-width:500px) {
   body{
     padding:4% 4%;
