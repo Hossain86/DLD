@@ -113,5 +113,56 @@
   </div>
   <div class="js-todo-list todo-grid"></div>
   <footer style="text-align: center;">@2024 AH Mikat</footer>
+  <script>
+  let todoList = JSON.parse(localStorage.getItem('todoList')) || [];
+
+renderToDoList();
+
+function renderToDoList() {
+  let todoListHTML = '';
+
+  todoList.forEach(function(todoObject, index) {
+    const {name, duedate} = todoObject;
+    const html = `
+    <div class="item-class"><li>
+      ${name} <a style="margin-left: 5px;" href="${duedate}" target="_blank">Link</a> 
+      <button style="margin-left: 25px;" class="delete-todo-button js-delete-todo-button" data-index="${index}">Delete</button>
+   </li> </div>`;
+    todoListHTML += html;
+  });
+
+  document.querySelector('.js-todo-list').innerHTML = todoListHTML;
+  document.querySelectorAll('.js-delete-todo-button').forEach((deleteButton) => {
+    deleteButton.addEventListener('click', (event) => {
+      const index = event.target.dataset.index;
+      todoList.splice(index, 1);
+      saveTodoList();
+      renderToDoList();
+    });
+  });
+}
+
+document.querySelector('.js-add-todo-button').addEventListener('click', () => {
+  addTodo();
+});
+
+function addTodo() {
+  const inputElement = document.querySelector('.js-name-input');
+  const name = inputElement.value;
+
+  const dateInputElement = document.querySelector('.js-due-date-input');
+  const duedate = dateInputElement.value;
+
+  todoList.push({name, duedate});
+
+  inputElement.value = '';
+  saveTodoList();
+  renderToDoList();
+}
+
+function saveTodoList() {
+  localStorage.setItem('todoList', JSON.stringify(todoList));
+}
+</script>
 </body>
 </html>
